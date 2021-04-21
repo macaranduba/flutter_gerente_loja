@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "260074953759",
+    "project_id": "lojaflutter-b8392",
+    "storage_bucket": "lojaflutter-b8392.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:260074953759:android:e133eb1f58b4cbb81ac92a",
+        "android_client_info": {
+          "package_name": "br.com.jlsr.gerente_loja"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "260074953759-6v1ucob6cqqbgaoc424cr5ovcob4khhn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_Zt120cv69oS36OvDHwbKmFLNSHIEIHc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "260074953759-6v1ucob6cqqbgaoc424cr5ovcob4khhn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:260074953759:android:647e76292cbbcec41ac92a",
+        "android_client_info": {
+          "package_name": "br.com.jlsr.loja_virtual"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "260074953759-6v1ucob6cqqbgaoc424cr5ovcob4khhn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_Zt120cv69oS36OvDHwbKmFLNSHIEIHc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "260074953759-6v1ucob6cqqbgaoc424cr5ovcob4khhn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
