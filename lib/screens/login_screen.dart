@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gerente_loja/blocs/login_bloc.dart';
 import 'package:gerente_loja/widgets/input_field.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -8,6 +9,9 @@ class LoginScreen extends StatefulWidget {
 
 // stateful because the screen will change with opening and closing the keyboard
 class _LoginScreenState extends State<LoginScreen> {
+
+  final LoginBloc _loginBloc = LoginBloc();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,23 +31,33 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   InputField(icon: Icons.person_outline,
                     obscure: false,
-                    label: 'Usuário (a)'
+                    label: 'Usuário (a)',
+                    stream: _loginBloc.outEmail,
+                    onChanged: _loginBloc.changeEmail,
                   ),
                   InputField(icon: Icons.person_outline,
                     obscure: true,
-                    label: 'Senha'
+                    label: 'Senha',
+                    stream: _loginBloc.outPass,
+                    onChanged: _loginBloc.changePass,
                   ),
                   SizedBox(height: 32), // space between column's items
-                  SizedBox( // just to set the button's height
-                    child: ElevatedButton(
-                      child: Text('Entrar'),
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.pinkAccent,
-                        //onPrimary: Colors.grey[850],
-                      )
-                    ),
-                    height: 50,
+                  StreamBuilder<bool>(
+                    stream: _loginBloc.outSubmittedValid,
+                    builder: (context, snapshot) {
+                      return SizedBox( // just to set the button's height
+                        child: ElevatedButton(
+                          child: Text('Entrar'),
+                          onPressed: snapshot.hasData ? () {} : null,
+                          style: ElevatedButton.styleFrom(
+                            onSurface: Colors.pinkAccent.withAlpha(140), // disabled color
+                            primary: Colors.pinkAccent,
+                            //onPrimary: Colors.grey[850],
+                          )
+                        ),
+                        height: 50,
+                      );
+                    }
                   )
                 ],
                 crossAxisAlignment: CrossAxisAlignment.stretch,

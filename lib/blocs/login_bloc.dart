@@ -8,10 +8,19 @@ class LoginBloc extends BlocBase with LoginValidators {
 
   Stream<String> get outEmail => _emailController.stream.transform(validateEmail);
   Stream<String> get outPass => _passController.stream.transform(validadePass);
+  Stream<bool> get outSubmittedValid => Rx.combineLatest2(outEmail, outPass,
+     (a, b) => true) ; // combine only emits if all stream have already emitted on value each
+
+
+  Function(String) get changeEmail => _emailController.sink.add;
+  Function(String) get changePass => _passController.sink.add;
+
+
 
   @override
   void dispose() {
     _emailController.close();
     _passController.close();
+    super.dispose();
   }
 }
