@@ -6,6 +6,7 @@ class LoginValidators {
       if(email.contains('@')) {
         sink.add(email);
       } else {
+        sink.add(null);
         sink.addError('Insira um e-mail válido.');
       }
     },
@@ -16,6 +17,7 @@ class LoginValidators {
       if(pass.length > 5) {
         sink.add(pass);
       } else {
+        sink.add(null);
         sink.addError('Senha tem de conter 6 ou mais caracteres');
       }
     },

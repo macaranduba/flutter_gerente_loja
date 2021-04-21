@@ -48,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       return SizedBox( // just to set the button's height
                         child: ElevatedButton(
                           child: Text('Entrar'),
-                          onPressed: snapshot.hasData ? () {} : null,
+                          onPressed: snapshot.hasData && snapshot.data ? () {} : null,
                           style: ElevatedButton.styleFrom(
                             onSurface: Colors.pinkAccent.withAlpha(140), // disabled color
                             primary: Colors.pinkAccent,
