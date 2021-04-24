@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gerente_loja/validators/login_validators.dart';
 import 'package:rxdart/rxdart.dart';
@@ -21,13 +24,21 @@ class LoginBloc extends BlocBase with LoginValidators {
   Function(String) get changeEmail => _emailController.sink.add;
   Function(String) get changePass => _passController.sink.add;
 
-  LoginBloc() {
-    FirebaseAuth.instance.onAuthStateChanged.listen((firebaseUser) {
-      if(firebaseUser != null) {
-        print('logou!');
-        FirebaseAuth.instance.signOut();
-      } else {
+  StreamSubscription _streamSubscription;
 
+  LoginBloc() {
+    _streamSubscription = FirebaseAuth.instance.onAuthStateChanged.listen((firebaseUser) async {
+      if(firebaseUser != null) {
+        if(await verifyPrivileges(firebaseUser)) {
+          print('[onAuthStateChanged] É admin!');
+          _stateController.add(LoginState.SUCCESS);
+        } else {
+          print('[onAuthStateChanged] NÃO é admin!');
+          FirebaseAuth.instance.signOut();
+          _stateController.add(LoginState.FAIL);
+        }
+      } else {
+        print('[onAuthStateChanged] esperando!');
         _stateController.add(LoginState.IDLE);
       }
     });
@@ -45,11 +56,19 @@ class LoginBloc extends BlocBase with LoginValidators {
     });
   }
 
+  Future<bool> verifyPrivileges(FirebaseUser user) async {
+    print('[verifyPrivileges] ${user.uid}');
+    return await Firestore.instance.collection('admins').document(user.uid).get()
+      .then( (doc) => doc.data != null) // is admin if data user was found in admins collections and returned
+      .catchError( (error) => false ); // not an admin, or does not event has access to the admins collections
+  }
+
   @override
   void dispose() {
     _emailController.close();
     _passController.close();
     _stateController.close();
+    _streamSubscription.cancel();
     
     super.dispose();
   }
