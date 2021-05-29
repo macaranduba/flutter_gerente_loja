@@ -52,6 +52,7 @@ class LoginBloc extends BlocBase with LoginValidators {
     FirebaseAuth.instance.signInWithEmailAndPassword(
       email: email, password: pass
     ).catchError( (e) {
+      print(e);
       _stateController.add(LoginState.FAIL);
     });
   }
