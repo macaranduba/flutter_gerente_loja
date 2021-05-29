@@ -1,4 +1,6 @@
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:gerente_loja/blocs/user_bloc.dart';
 import 'package:gerente_loja/tabs/users_tab.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -11,14 +13,18 @@ class _HomeScreenState extends State<HomeScreen> {
   PageController _pageController;
   int _pageNumber = 0;
 
+  UserBloc _userBloc;
+
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
+    _userBloc = UserBloc();
   }
 
   @override
   void dispose() {
+    // no need to dispose _userBloc because BlocProvider takes care of that for us
     _pageController.dispose();
     super.dispose();
   }
@@ -28,20 +34,26 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[850],
       body: SafeArea(
-        child: PageView(
-          children: [
-            UsersTab(),
-            Container(color: Colors.green),
-            Container(color: Colors.red),
+        child: BlocProvider(
+          blocs: [
+            Bloc((i) => _userBloc),
           ],
-          controller: _pageController,
-          /*onPageChanged: (selectedPageNumber) {
-            setState(() {
-              _pageNumber = selectedPageNumber;
-            });
-          },*/
-          onPageChanged: (selectedPageNumber) =>
-            setState( () => _pageNumber = selectedPageNumber ),
+          dependencies: [],
+          child: PageView(
+            children: [
+              UsersTab(),
+              Container(color: Colors.green),
+              Container(color: Colors.red),
+            ],
+            controller: _pageController,
+            /*onPageChanged: (selectedPageNumber) {
+              setState(() {
+                _pageNumber = selectedPageNumber;
+              });
+            },*/
+            onPageChanged: (selectedPageNumber) =>
+              setState( () => _pageNumber = selectedPageNumber ),
+          ),
         ),
       ),
       bottomNavigationBar: Theme(
