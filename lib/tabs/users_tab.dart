@@ -17,11 +17,12 @@ class UsersTab extends StatelessWidget {
               hintText: 'Pesquisar',
               hintStyle: TextStyle(color: Colors.white),
               icon: Icon(Icons.search, color: Colors.white,),
-            )
+            ),
+            onChanged: _userBloc.onChangedSearch,
           ),
         ),
         Expanded( // just to avoid runtime error due to Column -> ListView.separated hierarchy
-          // where those 2 widgets try to reach the height limite when there is not one
+          // where those 2 widgets try to reach the height limit when there is not one
           child: StreamBuilder<List>(
             stream: _userBloc.outUsers,
             builder: (context, snapshot) {
